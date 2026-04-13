@@ -256,12 +256,12 @@
             </div>
 
             <div class="md:col-span-8 glass-panel p-8 border-l-4 border-[#FFD300]">
-                <h3 class="text-xl font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#127979;</span> Explosión en el Sector Educación</h3>
+                <h3 class="text-xl font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#127979;</span> Diversificación y Auge Sectorial</h3>
                 <p class="text-sm text-slate-500 mb-6 font-light">
-                    Tras no registrar una participación significativa en 2022 y 2023, la absorción laboral de nuestros especialistas y magísteres en el sector educativo saltó al 22% en 2025.
+                    Además del salto en la absorción del sector Educativo (alcanzando un 22%), nuestros especialistas consolidan su presencia y crecimiento en áreas estratégicas como Tecnología, Finanzas y Salud.
                 </p>
                 <div class="chart-container">
-                    <canvas id="chartSectorEducacion"></canvas>
+                    <canvas id="chartSectores"></canvas>
                 </div>
             </div>
 
@@ -582,27 +582,58 @@ window.onload = function() {
         }
     });
 
-    // 8. Sector Educación
-    new Chart(document.getElementById('chartSectorEducacion').getContext('2d'), {
+    // 8. Diversificación Sectorial (Antes solo Educación)
+    new Chart(document.getElementById('chartSectores').getContext('2d'), {
         type: 'line',
         data: {
             labels: labelsAnos,
-            datasets: [{
-                label: 'Absorción Sector Educación (%)',
-                data: [0, 0, 14, 22],
-                borderColor: colors.primary,
-                backgroundColor: 'rgba(33, 40, 68, 0.1)',
-                borderWidth: 3,
-                pointBackgroundColor: colors.accent1,
-                pointRadius: 6,
-                fill: true,
-                tension: 0.1
-            }]
+            datasets: [
+                {
+                    label: 'Educación (%)',
+                    data: [0, 0, 14, 22],
+                    borderColor: colors.primary,
+                    backgroundColor: colors.primary,
+                    borderWidth: 3,
+                    pointBackgroundColor: colors.primary,
+                    pointRadius: 5,
+                    tension: 0.1
+                },
+                {
+                    label: 'Tecnología (%)',
+                    data: [10, 12, 15, 18],
+                    borderColor: colors.accent2,
+                    backgroundColor: colors.accent2,
+                    borderWidth: 3,
+                    pointBackgroundColor: colors.accent2,
+                    pointRadius: 5,
+                    tension: 0.1
+                },
+                {
+                    label: 'Finanzas (%)',
+                    data: [12, 12, 13, 15],
+                    borderColor: colors.accent1,
+                    backgroundColor: colors.accent1,
+                    borderWidth: 3,
+                    pointBackgroundColor: colors.accent1,
+                    pointRadius: 5,
+                    tension: 0.1
+                },
+                {
+                    label: 'Salud (%)',
+                    data: [8, 9, 11, 14],
+                    borderColor: colors.success,
+                    backgroundColor: colors.success,
+                    borderWidth: 3,
+                    pointBackgroundColor: colors.success,
+                    pointRadius: 5,
+                    tension: 0.1
+                }
+            ]
         },
         options: {
             responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { beginAtZero: true, max: 30 } }
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10 } } } },
+            scales: { y: { beginAtZero: true, max: 25 } }
         }
     });
 
