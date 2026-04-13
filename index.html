@@ -9,8 +9,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- Librería para la generación de Imagen (JPG/PNG) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<!-- Librería para la generación de PDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
     body {
@@ -69,7 +67,7 @@
 <nav class="nav-sticky py-0" id="main-nav"> 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20"> 
         <div class="flex items-center h-full">
-            <img src="logo-uniminuto.jpg" alt="Logo UNIMINUTO" class="h-12 md:h-16 w-auto object-contain py-1">
+            <img src="logo-uniminuto.png" alt="Logo UNIMINUTO" class="h-12 md:h-16 w-auto object-contain py-1">
         </div>
         <div class="hidden md:flex space-x-6 text-xs font-bold text-white uppercase tracking-wider items-center">
             <a href="#perfil" class="hover:text-[#5BDFFF] transition-colors">Perfil</a>
@@ -78,21 +76,15 @@
             <a href="#sectores" class="hover:text-[#5BDFFF] transition-colors">Sectores</a>
             <a href="#fidelizacion" class="hover:text-[#5BDFFF] transition-colors">Fidelización</a>
             
-            <!-- Botones de Descarga (PDF y JPG) -->
+            <!-- Botón de Descarga (JPG) -->
             <div class="flex items-center space-x-2 ml-4">
-                <button id="downloadPdfBtn" data-html2canvas-ignore class="bg-[#212844] text-white px-4 py-2 rounded-full font-bold hover:bg-slate-800 transition-colors shadow-md flex items-center border border-[#FFD300]">
-                    &#128229; PDF
-                </button>
                 <button id="downloadJpgBtn" data-html2canvas-ignore class="bg-[#FFD300] text-[#212844] px-4 py-2 rounded-full font-bold hover:bg-yellow-400 transition-colors shadow-md flex items-center">
                     &#128229; JPG
                 </button>
             </div>
         </div>
-        <!-- Botones versión móvil -->
+        <!-- Botón versión móvil -->
         <div class="md:hidden flex items-center space-x-2">
-            <button id="downloadPdfBtnMobile" data-html2canvas-ignore class="bg-[#212844] text-white px-3 py-1.5 rounded-full font-bold text-xs hover:bg-slate-800 transition-colors shadow-md border border-[#FFD300]">
-                PDF
-            </button>
             <button id="downloadJpgBtnMobile" data-html2canvas-ignore class="bg-[#FFD300] text-[#212844] px-3 py-1.5 rounded-full font-bold text-xs hover:bg-yellow-400 transition-colors shadow-md">
                 JPG
             </button>
@@ -100,7 +92,7 @@
     </div>
 </nav>
 
-<!-- Contenedor maestro para atrapar la imagen o PDF -->
+<!-- Contenedor maestro para atrapar la imagen -->
 <div id="pdf-wrapper">
 
 <header class="bg-[#212844] text-white py-10 relative overflow-hidden avoid-break">
@@ -357,7 +349,7 @@
     </div>
 </footer>
 
-</div> <!-- Cierre del contenedor maestro (pdf-wrapper) -->
+</div> <!-- Cierre del contenedor maestro -->
 
 <script>
 window.onload = function() {
@@ -414,49 +406,9 @@ window.onload = function() {
         });
     }
 
-    // ---- LÓGICA PARA EXPORTACIÓN A PDF ----
-    function generatePDF() {
-        const btn = document.getElementById('downloadPdfBtn');
-        const btnMobile = document.getElementById('downloadPdfBtnMobile');
-        const element = document.getElementById('pdf-wrapper');
-        const nav = document.getElementById('main-nav');
-        
-        window.scrollTo(0, 0);
-        
-        const originalText = btn.innerHTML;
-        const originalTextMobile = btnMobile.innerHTML;
-        btn.innerHTML = '&#8987; Procesando...';
-        btnMobile.innerHTML = '&#8987; PDF';
-        
-        nav.style.position = 'relative';
-        
-        const opt = {
-            margin:       [0.4, 0, 0.4, 0], 
-            filename:     'Infografia_Egresados_UNIMINUTO.pdf',
-            image:        { type: 'jpeg', quality: 1 },
-            html2canvas:  { scale: 2, useCORS: true, scrollY: 0, windowWidth: 1200 },
-            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
-            pagebreak:    { mode: ['css', 'legacy'] } // Salto de páginas sin cortar gráficos
-        };
-
-        html2pdf().set(opt).from(element).save().then(() => {
-            btn.innerHTML = originalText;
-            btnMobile.innerHTML = originalTextMobile;
-            nav.style.position = 'sticky';
-        }).catch(err => {
-            console.error('Error generando PDF: ', err);
-            btn.innerHTML = originalText;
-            btnMobile.innerHTML = originalTextMobile;
-            nav.style.position = 'sticky';
-        });
-    }
-
     // Asignar eventos a los botones correspondientes
     document.getElementById('downloadJpgBtn').addEventListener('click', generateJPG);
     document.getElementById('downloadJpgBtnMobile').addEventListener('click', generateJPG);
-    document.getElementById('downloadPdfBtn').addEventListener('click', generatePDF);
-    document.getElementById('downloadPdfBtnMobile').addEventListener('click', generatePDF);
-
 
     // ---- CONFIGURACIÓN DE GRÁFICOS (Chart.js) ----
     const colors = {
@@ -471,7 +423,7 @@ window.onload = function() {
     Chart.defaults.font.family = "'Montserrat', sans-serif";
     Chart.defaults.color = colors.textSoft;
     
-    // CRUCIAL PARA EXPORTACIÓN: Desactivar animaciones para captura completa de imagen
+    // CRUCIAL PARA EXPORTACIÓN: Desactivar animaciones para que el gráfico se capture 100% dibujado
     Chart.defaults.animation = false;
 
     function processLabel(labelStr, limit) {
