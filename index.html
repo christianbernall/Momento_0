@@ -203,9 +203,9 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 relative z-10">
                 <div>
-                    <h3 class="text-xl font-bold text-[#212844] mb-2">El Boom de las Maestrías</h3>
+                    <h3 class="text-xl font-bold text-[#212844] mb-2">Especializaciones vs. Maestrías</h3>
                     <p class="text-sm text-slate-500 mb-6 font-light">
-                        La participación de este nivel de formación superior tuvo un gran salto en el cuatrienio, pasando del 18% en 2022 al 23% en la medición actual.
+                        Mientras las especializaciones mantienen una sólida base mayoritaria, la elección de maestrías experimentó un salto estratégico, evidenciando un creciente interés por la alta investigación y profundización técnica.
                     </p>
                     <div class="chart-container">
                         <canvas id="chartMaestrias"></canvas>
@@ -534,30 +534,42 @@ window.onload = function() {
         }
     });
 
-    // 6. Maestrias
+        // 8. Especializaciones y Maestrías
     new Chart(document.getElementById('chartMaestrias').getContext('2d'), {
         type: 'line',
         data: {
             labels: labelsAnos,
-            datasets: [{
-                label: 'Participación Maestrías (%)',
-                data: [18, 22, 25, 23],
-                borderColor: colors.accent1,
-                backgroundColor: 'rgba(255, 211, 0, 0.15)',
-                pointBackgroundColor: colors.primary,
-                borderWidth: 3,
-                pointRadius: 6,
-                fill: true,
-                tension: 0.3
-            }]
+            datasets: [
+                {
+                    label: 'Especializaciones (%)',
+                    data: [82, 78, 75, 77],
+                    borderColor: colors.primary,
+                    backgroundColor: 'transparent',
+                    pointBackgroundColor: colors.primary,
+                    borderWidth: 3,
+                    pointRadius: 5,
+                    tension: 0.3
+                },
+                {
+                    label: 'Maestrías (%)',
+                    data: [18, 22, 25, 23],
+                    borderColor: colors.accent1,
+                    backgroundColor: 'rgba(255, 211, 0, 0.15)',
+                    pointBackgroundColor: colors.accent1,
+                    borderWidth: 3,
+                    pointRadius: 5,
+                    fill: true,
+                    tension: 0.3
+                }
+            ]
         },
         options: {
             responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { min: 10, max: 30 } }
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10 } } } },
+            scales: { y: { min: 0, max: 100 } }
         }
     });
-
+    
     // 7. Expectativas
     new Chart(document.getElementById('chartExpectativas').getContext('2d'), {
         type: 'line',
