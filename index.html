@@ -59,11 +59,11 @@
 </head>
 <body class="antialiased">
 
-<nav class="nav-sticky py-1">
+<nav id="main-nav" class="nav-sticky py-1">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <div class="flex items-center space-x-6 md:space-x-8">
             <!-- Se retiró el atributo onerror y se codificaron los espacios por seguridad -->
-            <img src="logo-uniminuto.png" alt="Logo UNIMINUTO" class="h-10 md:h-12 min-w-[150px] object-contain">
+            <img src="logo-uniminuto.png" alt="Logo UNIMINUTO" crossorigin="anonymous" class="h-10 md:h-12 min-w-[150px] object-contain">
         </div>
         <div class="hidden md:flex space-x-6 text-sm font-bold text-white">
             <a href="#caracterización" class="hover:text-[#5BDFFF] transition-colors">Caracterización</a>
@@ -329,7 +329,7 @@
             <p class="text-blue-400 text-xs mt-4 uppercase tracking-widest">Seguimiento Momento Cero 2022-2025</p>
         </div>
         <div class="flex items-center justify-center bg-white/5 p-4 md:p-6 rounded-xl">
-            <img src="logo-clubviveuniminuto.png" alt="Club Egresados" class="h-16 md:h-24 object-contain brightness-0 invert" onerror="this.style.display='none'">
+            <img src="logo-clubviveuniminuto.png" alt="Club Egresados" crossorigin="anonymous" class="h-16 md:h-24 object-contain brightness-0 invert" onerror="this.style.display='none'">
         </div>
     </div>
 </footer>
@@ -338,24 +338,24 @@
 window.onload = function() {
     // ---- LÓGICA PARA EXPORTACIÓN COMPLETA A IMAGEN JPG ----
     function generateJPG() {
-        const btn = document.getElementById('downloadJpgBtn');
-        const btnMobile = document.getElementById('downloadJpgBtnMobile');
-        const nav = document.getElementById('main-nav');
-        
-        // 1. Llevar al usuario al top para evitar cortes
-        window.scrollTo(0, 0);
-        
-        // Feedback visual
-        const originalText = btn.innerHTML;
-        const originalTextMobile = btnMobile.innerHTML;
-        btn.innerHTML = '&#8987; Procesando...';
-        btnMobile.innerHTML = '&#8987; JPG';
-        
-        // 2. Liberar el nav para que no se superponga flotando a la mitad
-        nav.style.position = 'relative';
-        
-        // 3. Capturar TODO el body de la página calculando su altura total
-        // Esto garantiza que la infografía larga se capture de principio a fin
+    const btn = document.getElementById('downloadJpgBtn');
+    const btnMobile = document.getElementById('downloadJpgBtnMobile');
+    const nav = document.getElementById('main-nav');
+    
+    // 1. Llevar al usuario al top para evitar cortes
+    window.scrollTo(0, 0);
+    
+    // Feedback visual
+    const originalText = btn.innerHTML;
+    const originalTextMobile = btnMobile.innerHTML;
+    btn.innerHTML = '&#8987; Procesando...';
+    btnMobile.innerHTML = '&#8987; JPG';
+    
+    // 2. Liberar el nav para que no se superponga flotando a la mitad
+    nav.style.position = 'relative';
+    
+    // 3. Darle 300 milisegundos al navegador para que termine de hacer el scroll visualmente
+    setTimeout(() => {
         const fullHeight = Math.max(
             document.body.scrollHeight, 
             document.documentElement.scrollHeight
@@ -381,7 +381,7 @@ window.onload = function() {
             link.click();
             document.body.removeChild(link);
 
-            // Restaurar diseño original de los botones
+            // Restaurar diseño original de los botones y el menú
             btn.innerHTML = originalText;
             btnMobile.innerHTML = originalTextMobile;
             nav.style.position = 'sticky';
@@ -391,7 +391,8 @@ window.onload = function() {
             btnMobile.innerHTML = originalTextMobile;
             nav.style.position = 'sticky';
         });
-    }
+    }, 300); // <-- Aquí está la magia (300 ms de espera)
+}
 
     document.getElementById('downloadJpgBtn').addEventListener('click', generateJPG);
     document.getElementById('downloadJpgBtnMobile').addEventListener('click', generateJPG);
