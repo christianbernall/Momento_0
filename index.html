@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
     body {
@@ -61,7 +62,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <div class="flex items-center space-x-6 md:space-x-8">
             <!-- Se retiró el atributo onerror y se codificaron los espacios por seguridad -->
-            <img src="logo-uniminuto.png" alt="Logo UNIMINUTO" class="h-16 md:h-24 min-w-[150px] object-contain">
+            <img src="logo-uniminuto.jpg" alt="Logo UNIMINUTO" class="h-16 md:h-24 min-w-[150px] object-contain">
         </div>
         <div class="hidden md:flex space-x-6 text-sm font-bold text-white">
             <a href="#perfil" class="hover:text-[#5BDFFF] transition-colors">Perfil</a>
@@ -69,9 +70,17 @@
             <a href="#posgrado" class="hover:text-[#5BDFFF] transition-colors">Posgrado</a>
             <a href="#sectores" class="hover:text-[#5BDFFF] transition-colors">Sectores</a>
             <a href="#fidelizacion" class="hover:text-[#5BDFFF] transition-colors">Fidelización</a>
+            
+            <!-- Botón de Descarga PDF -->
+            <button id="downloadPdfBtn" data-html2canvas-ignore class="ml-4 bg-[#FFD300] text-[#212844] px-4 py-2 rounded-full font-bold hover:bg-yellow-400 transition-colors shadow-md flex items-center">
+                &#128229; DESCARGAR PDF
+            </button>
         </div>
     </div>
 </nav>
+
+<!-- Contenedor maestro para atrapar la imagen del PDF -->
+<div id="pdf-wrapper">
 
 <header class="bg-[#212844] text-white py-16 relative overflow-hidden">
     <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#FFD300 2px, transparent 2px); background-size: 30px 30px;"></div>
@@ -297,306 +306,41 @@
     </div>
 </footer>
 
+</div> <!-- Cierre del contenedor pdf-wrapper -->
+
 <script>
-window.onload = function() {
-    const colors = {
-        primary: '#212844',
-        accent1: '#FFD300',
-        accent2: '#5BDFFF',
-        textSoft: '#64748B',
-        danger: '#ef4444',
-        success: '#10b981'
-    };
-
-    Chart.defaults.font.family = "'Montserrat', sans-serif";
-    Chart.defaults.color = colors.textSoft;
-
-    function processLabel(labelStr, limit) {
-        if (typeof labelStr !== 'string') labelStr = String(labelStr);
-        if (labelStr.length <= limit) return labelStr;
+    // Lógica para descargar el PDF
+    document.getElementById('downloadPdfBtn').addEventListener('click', function() {
+        const btn = this;
+        const element = document.getElementById('pdf-wrapper');
+        const originalText = btn.innerHTML;
         
-        const words = labelStr.split(' ');
-        const lines = [];
-        let currentLine = '';
-
-        for (let i = 0; i < words.length; i++) {
-            const word = words[i];
-            if ((currentLine + word).length > limit) {
-                if (currentLine.trim() !== '') lines.push(currentLine.trim());
-                currentLine = word + ' ';
-            } else {
-                currentLine += word + ' ';
-            }
-        }
-        if (currentLine.trim() !== '') lines.push(currentLine.trim());
+        // Es fundamental volver al inicio de la página para evitar que el PDF salga recortado
+        window.scrollTo(0, 0);
+        btn.innerHTML = '&#8987; Procesando...';
         
-        return lines.length > 1 ? lines : lines[0];
-    }
+        const opt = {
+            margin:       [0.4, 0, 0.4, 0],
+            filename:     'Infografia_Egresados_UNIMINUTO.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, scrollY: 0, windowWidth: 1200 },
+            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
 
-    function wrapLabels(labelsArray, limit = 16) {
-        if (!Array.isArray(labelsArray)) return labelsArray;
-        return labelsArray.map(label => processLabel(label, limit));
-    }
-
-    const mandatoryTooltipConfig = {
-        callbacks: {
-            title: function(tooltipItems) {
-                const item = tooltipItems[0];
-                let label = item.chart.data.labels[item.dataIndex];
-                if (Array.isArray(label)) {
-                    return label.join(' ');
-                } else {
-                    return label;
-                }
-            }
-        }
-    };
-
-    const anosBase = ['2022', '2023', '2024', '2025'];
-    const labelsAnos = wrapLabels(anosBase);
-
-    // 1. Dependencia
-    new Chart(document.getElementById('chartDependencia').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: labelsAnos,
-            datasets: [{
-                label: 'Personas a cargo (%)',
-                data: [57, 55, 53, 51],
-                borderColor: colors.primary,
-                backgroundColor: 'rgba(33, 40, 68, 0.05)',
-                pointBackgroundColor: colors.accent1,
-                pointBorderColor: colors.primary,
-                pointRadius: 6,
-                borderWidth: 3,
-                fill: true,
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { min: 45, max: 65, ticks: { stepSize: 5 } } }
-        }
+        // Generar el PDF
+        html2pdf().set(opt).from(element).save().then(() => {
+            btn.innerHTML = originalText;
+        }).catch(err => {
+            console.error('Error generando PDF: ', err);
+            btn.innerHTML = originalText;
+        });
     });
 
-    // 2. Financiación
-    new Chart(document.getElementById('chartFinanciacion').getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: labelsAnos,
-            datasets: [
-                {
-                    label: 'Crédito Educativo (%)',
-                    data: [31, 29, 28, 28],
-                    backgroundColor: colors.primary,
-                    borderRadius: 4
-                },
-                {
-                    label: 'Becas y Subsidios (%)',
-                    data: [15, 18, 21, 21],
-                    backgroundColor: colors.accent1,
-                    borderRadius: 4
-                }
-            ]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'top' } },
-            scales: { y: { beginAtZero: true, max: 40 } }
-        }
-    });
-
-    // 3. Ocupación
-    new Chart(document.getElementById('chartOcupacion').getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: labelsAnos,
-            datasets: [{
-                label: 'Ocupación Efectiva (%)',
-                data: [75, 77, 78, 79],
-                backgroundColor: colors.accent2,
-                borderRadius: { topLeft: 6, topRight: 6 }
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { min: 65, max: 85 } }
-        }
-    });
-
-    // 4. Contrato
-    new Chart(document.getElementById('chartContrato').getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: labelsAnos,
-            datasets: [{
-                label: 'Contrato Indefinido (%)',
-                data: [56, 57, 58, 58],
-                backgroundColor: colors.primary,
-                borderRadius: { topLeft: 6, topRight: 6 }
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { min: 45, max: 65 } }
-        }
-    });
-
-    // 5. Salarios
-    new Chart(document.getElementById('chartMovilidadSalarial').getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: labelsAnos,
-            datasets: [
-                {
-                    label: '< 1 SMMLV (%)',
-                    data: [15, 14, 12, 11],
-                    backgroundColor: colors.danger,
-                    borderRadius: 3
-                },
-                {
-                    label: '1.5 a 2 SMMLV (%)',
-                    data: [15, 17, 20, 22],
-                    backgroundColor: colors.success,
-                    borderRadius: 3
-                }
-            ]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'top', labels: { boxWidth: 12 } } },
-            scales: { y: { beginAtZero: true, max: 30 } }
-        }
-    });
-
-    // 6. Maestrias
-    new Chart(document.getElementById('chartMaestrias').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: labelsAnos,
-            datasets: [{
-                label: 'Participación Maestrías (%)',
-                data: [18, 22, 25, 23],
-                borderColor: colors.accent1,
-                backgroundColor: 'rgba(255, 211, 0, 0.15)',
-                pointBackgroundColor: colors.primary,
-                borderWidth: 3,
-                pointRadius: 6,
-                fill: true,
-                tension: 0.3
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { min: 10, max: 30 } }
-        }
-    });
-
-    // 7. Expectativas
-    new Chart(document.getElementById('chartExpectativas').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: labelsAnos,
-            datasets: [{
-                label: 'Expectativas Cumplidas (%)',
-                data: [93, 93, 95, 95],
-                borderColor: colors.accent2,
-                backgroundColor: 'rgba(91, 223, 255, 0.15)',
-                pointBackgroundColor: colors.primary,
-                borderWidth: 3,
-                pointRadius: 6,
-                fill: true,
-                tension: 0
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { min: 85, max: 100 } }
-        }
-    });
-
-    // 8. Sector Educación
-    new Chart(document.getElementById('chartSectorEducacion').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: labelsAnos,
-            datasets: [{
-                label: 'Absorción Sector Educación (%)',
-                data: [0, 0, 14, 22],
-                borderColor: colors.primary,
-                backgroundColor: 'rgba(33, 40, 68, 0.1)',
-                borderWidth: 3,
-                pointBackgroundColor: colors.accent1,
-                pointRadius: 6,
-                fill: true,
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { beginAtZero: true, max: 30 } }
-        }
-    });
-
-    // 9. Salarios Posgrado
-    new Chart(document.getElementById('chartSalariosPosgrado').getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: labelsAnos,
-            datasets: [{
-                label: 'Ingresos 5 a 10 SMMLV (%)',
-                data: [6, 7, 8, 10],
-                backgroundColor: colors.accent2,
-                borderRadius: { topLeft: 4, topRight: 4 }
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { beginAtZero: true, max: 15 } }
-        }
-    });
-
-    // 10. Fidelización
-    new Chart(document.getElementById('chartFidelizacion').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: labelsAnos,
-            datasets: [
-                {
-                    label: 'Reconocimiento Corporativo (%)',
-                    data: [90, 91, 92, 93],
-                    borderColor: colors.primary,
-                    pointBackgroundColor: colors.primary,
-                    borderWidth: 3,
-                    pointRadius: 6,
-                    tension: 0.1
-                },
-                {
-                    label: 'Satisfacción Seminarios (%)',
-                    data: [79, 81, 84, 86],
-                    borderColor: colors.accent2,
-                    pointBackgroundColor: colors.accent2,
-                    borderDash: [5, 5],
-                    borderWidth: 3,
-                    pointRadius: 6,
-                    tension: 0.1
-                }
-            ]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'top', labels: { font: { weight: 'bold' } } } },
-            scales: { y: { min: 70, max: 100 } }
-        }
-    });
-};
+    // IMPORTANTE: Aquí debajo debes asegurarte de colocar (o mantener) 
+    // todo tu código anterior de Chart.js para que los gráficos sigan funcionando.
+    // Te recomiendo añadir la siguiente línea antes de tus gráficos para que salgan completos en el PDF:
+    // Chart.defaults.animation = false;
 </script>
+
 </body>
 </html>
