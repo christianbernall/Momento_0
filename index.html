@@ -7,6 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Librería para la generación de PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
     body {
@@ -55,17 +57,29 @@
     }
 </style>
 </head>
-<body class="antialiased">
+<body class="antialiased" id="infografia-content">
 
-<nav class="nav-sticky py-0"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20"> <div class="flex items-center h-full">
+<nav class="nav-sticky py-0"> 
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20"> 
+        <div class="flex items-center h-full">
             <img src="logo-uniminuto.png" alt="Logo UNIMINUTO" class="h-12 md:h-16 w-auto object-contain py-1">
         </div>
-        <div class="hidden md:flex space-x-6 text-xs font-bold text-white uppercase tracking-wider">
+        <div class="hidden md:flex space-x-6 text-xs font-bold text-white uppercase tracking-wider items-center">
             <a href="#perfil" class="hover:text-[#5BDFFF] transition-colors">Perfil</a>
             <a href="#laboral" class="hover:text-[#5BDFFF] transition-colors">Laboral</a>
             <a href="#posgrado" class="hover:text-[#5BDFFF] transition-colors">Posgrado</a>
             <a href="#sectores" class="hover:text-[#5BDFFF] transition-colors">Sectores</a>
             <a href="#fidelizacion" class="hover:text-[#5BDFFF] transition-colors">Fidelización</a>
+            <!-- Botón de Descarga PDF -->
+            <button id="downloadPdfBtn" data-html2canvas-ignore class="ml-4 bg-[#FFD300] text-[#212844] px-4 py-2 rounded-full font-bold hover:bg-yellow-400 transition-colors shadow-md flex items-center">
+                &#128229; DESCARGAR PDF
+            </button>
+        </div>
+        <!-- Botón versión móvil (visible solo en pantallas pequeñas) -->
+        <div class="md:hidden flex items-center">
+            <button id="downloadPdfBtnMobile" data-html2canvas-ignore class="bg-[#FFD300] text-[#212844] px-3 py-1.5 rounded-full font-bold text-xs hover:bg-yellow-400 transition-colors shadow-md">
+                &#128229; PDF
+            </button>
         </div>
     </div>
 </nav>
@@ -296,6 +310,43 @@
 
 <script>
 window.onload = function() {
+    // ---- LÓGICA DE DESCARGA PDF ----
+    function generatePDF() {
+        const btn = document.getElementById('downloadPdfBtn');
+        const btnMobile = document.getElementById('downloadPdfBtnMobile');
+        const element = document.getElementById('infografia-content');
+        
+        // Efecto visual durante la carga
+        const originalText = btn.innerHTML;
+        const originalTextMobile = btnMobile.innerHTML;
+        btn.innerHTML = '&#8987; Procesando...';
+        btnMobile.innerHTML = '&#8987; PDF';
+        
+        // Configuraciones para una impresión limpia y nítida
+        const opt = {
+            margin:       [0, 0, 0, 0],
+            filename:     'Infografia_Egresados_UNIMINUTO.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, windowWidth: 1200 }, // windowWidth simula pantalla de PC
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        // Generar el PDF
+        html2pdf().set(opt).from(element).save().then(() => {
+            btn.innerHTML = originalText;
+            btnMobile.innerHTML = originalTextMobile;
+        }).catch(err => {
+            console.error('Error generando PDF: ', err);
+            btn.innerHTML = originalText;
+            btnMobile.innerHTML = originalTextMobile;
+        });
+    }
+
+    // Event listeners para ambos botones (móvil y PC)
+    document.getElementById('downloadPdfBtn').addEventListener('click', generatePDF);
+    document.getElementById('downloadPdfBtnMobile').addEventListener('click', generatePDF);
+
+    // ---- LÓGICA DE GRÁFICOS (Chart.js) ----
     const colors = {
         primary: '#212844',
         accent1: '#FFD300',
