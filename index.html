@@ -7,641 +7,592 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- Librería para la generación de PDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-    body {
-        font-family: 'Montserrat', sans-serif;
-        background-color: #f8fafc;
-        color: #212844;
-        scroll-behavior: smooth;
-    }
-    .chart-container {
-        position: relative;
-        width: 100%;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        height: 250px;
-        max-height: 300px;
-    }
-    @media (min-width: 768px) {
-        .chart-container {
-            height: 280px;
-        }
-    }
-    .nav-sticky {
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        background-color: rgba(33, 40, 68, 0.95);
-        backdrop-filter: blur(8px);
-        border-bottom: 3px solid #FFD300;
-    }
-    .glass-panel {
-        background-color: #ffffff;
-        border-radius: 1rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        border: 1px solid #e2e8f0;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .glass-panel:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
-    .heading-underline {
-        border-bottom: 4px solid #5BDFFF;
-        display: inline-block;
-        padding-bottom: 0.25rem;
-    }
-    /* Clases cruciales para evitar recortes en el PDF */
-    .avoid-break {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-    }
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #f8fafc;
+        color: #212844;
+        scroll-behavior: smooth;
+    }
+    .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 250px;
+        max-height: 300px;
+    }
+    @media (min-width: 768px) {
+        .chart-container {
+            height: 280px;
+        }
+    }
+    .nav-sticky {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background-color: rgba(33, 40, 68, 0.95);
+        backdrop-filter: blur(8px);
+        border-bottom: 3px solid #FFD300;
+    }
+    .glass-panel {
+        background-color: #ffffff;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        border: 1px solid #e2e8f0;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .glass-panel:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    .heading-underline {
+        border-bottom: 4px solid #5BDFFF;
+        display: inline-block;
+        padding-bottom: 0.25rem;
+    }
 </style>
 </head>
-<body class="antialiased" id="infografia-content">
+<body class="antialiased">
 
-<nav class="nav-sticky py-0" id="main-nav"> 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20"> 
-        <div class="flex items-center h-full">
-            <img src="logo-uniminuto.png" alt="Logo UNIMINUTO" class="h-12 md:h-16 w-auto object-contain py-1">
-        </div>
-        <div class="hidden md:flex space-x-6 text-xs font-bold text-white uppercase tracking-wider items-center">
-            <a href="#perfil" class="hover:text-[#5BDFFF] transition-colors">Perfil</a>
-            <a href="#laboral" class="hover:text-[#5BDFFF] transition-colors">Laboral</a>
-            <a href="#posgrado" class="hover:text-[#5BDFFF] transition-colors">Posgrado</a>
-            <a href="#sectores" class="hover:text-[#5BDFFF] transition-colors">Sectores</a>
-            <a href="#fidelizacion" class="hover:text-[#5BDFFF] transition-colors">Fidelización</a>
-            <!-- Botón de Descarga PDF -->
-            <button id="downloadPdfBtn" data-html2canvas-ignore class="ml-4 bg-[#FFD300] text-[#212844] px-4 py-2 rounded-full font-bold hover:bg-yellow-400 transition-colors shadow-md flex items-center">
-                &#128229; DESCARGAR PDF
-            </button>
-        </div>
-        <!-- Botón versión móvil -->
-        <div class="md:hidden flex items-center">
-            <button id="downloadPdfBtnMobile" data-html2canvas-ignore class="bg-[#FFD300] text-[#212844] px-3 py-1.5 rounded-full font-bold text-xs hover:bg-yellow-400 transition-colors shadow-md">
-                &#128229; PDF
-            </button>
-        </div>
-    </div>
+<nav class="nav-sticky py-0"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20"> <div class="flex items-center h-full">
+            <img src="logo-uniminuto.png" alt="Logo UNIMINUTO" class="h-12 md:h-16 w-auto object-contain py-1">
+        </div>
+        <div class="hidden md:flex space-x-6 text-xs font-bold text-white uppercase tracking-wider">
+            <a href="#perfil" class="hover:text-[#5BDFFF] transition-colors">Perfil</a>
+            <a href="#laboral" class="hover:text-[#5BDFFF] transition-colors">Laboral</a>
+            <a href="#posgrado" class="hover:text-[#5BDFFF] transition-colors">Posgrado</a>
+            <a href="#sectores" class="hover:text-[#5BDFFF] transition-colors">Sectores</a>
+            <a href="#fidelizacion" class="hover:text-[#5BDFFF] transition-colors">Fidelización</a>
+        </div>
+    </div>
 </nav>
 
-<!-- Contenedor maestro para el PDF -->
-<div id="pdf-wrapper">
-
-<header class="bg-[#212844] text-white py-10 relative overflow-hidden avoid-break">
-    <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(#FFD300 2px, transparent 2px); background-size: 30px 30px;"></div>
-    <div class="max-w-5xl mx-auto px-4 relative z-10 text-center">
-        <p class="text-[#5BDFFF] font-bold tracking-widest uppercase mb-3">Momento 0 &bull; Cohorte 2025</p>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
-            Evolución de Egresados <span class="text-[#FFD300]">UNIMINUTO</span>
-        </h1>
-        <p class="text-lg md:text-xl font-light text-blue-100 max-w-3xl mx-auto mt-10">
-            Panorama general 2022-2025: Impacto y trayectoria de nuestra comunidad de recién egresados.
-        </p>
-    </div>
+<header class="bg-[#212844] text-white py-10 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(#FFD300 2px, transparent 2px); background-size: 30px 30px;"></div>
+    <div class="max-w-5xl mx-auto px-4 relative z-10 text-center">
+        <p class="text-[#5BDFFF] font-bold tracking-widest uppercase mb-3">Momento 0 &bull; Cohorte 2025</p>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+            Evolución de Egresados <span class="text-[#FFD300]">UNIMINUTO</span>
+        </h1>
+        <p class="text-lg md:text-xl font-light text-blue-100 max-w-3xl mx-auto mt-10">
+            Panorama general 2022-2025: Impacto y trayectoria de nuestra comunidad de recién egresados.
+        </p>
+    </div>
 </header>
 
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-24">
 
-    <!-- SECCIÓN 1 -->
-    <section id="perfil" class="scroll-mt-24 avoid-break">
-        <div class="mb-10 text-center md:text-left">
-            <h2 class="heading-underline text-3xl font-bold text-[#212844] mb-4">
-                1. Perfil del recién Egresado (Pregrado)
-            </h2>
-            <p class="text-slate-600 text-lg max-w-4xl font-light">
-                La demografía de la institución evidencia una transformación hacia una población más joven y con mayor autonomía. En el cuatrienio analizado, los egresados redujeron sus responsabilidades económicas familiares y optimizaron sus métodos de apalancamiento financiero.
-            </p>
-        </div>
+    <section id="perfil" class="scroll-mt-24">
+        <div class="mb-10 text-center md:text-left">
+            <h2 class="heading-underline text-3xl font-bold text-[#212844] mb-4">
+                1. Perfil del recién Egresado (Pregrado)
+            </h2>
+            <p class="text-slate-600 text-lg max-w-4xl font-light">
+                La demografía de la institución evidencia una transformación hacia una población más joven y con mayor autonomía. En el cuatrienio analizado, los egresados redujeron sus responsabilidades económicas familiares y optimizaron sus métodos de apalancamiento financiero.
+            </p>
+        </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div class="glass-panel avoid-break p-6 border-t-4 border-[#212844]">
-                <h3 class="text-xl font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#128106;</span> Disminución de la Dependencia Económica</h3>
-                <p class="text-sm text-slate-500 mb-6 font-light">
-                    La proporción de egresados de pregrado con personas a su cargo ha experimentado una caída sostenida y progresiva, pasando del 57% en 2022 al 51% en 2025.
-                </p>
-                <div class="chart-container avoid-break">
-                <canvas id="chartFinanciacion"></canvas>
-            </div>
-        </div>
-    </div>
-</section>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="glass-panel p-6 border-t-4 border-[#212844]">
+                <h3 class="text-xl font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#128106;</span> Disminución de la Dependencia Económica</h3>
+                <p class="text-sm text-slate-500 mb-6 font-light">
+                    La proporción de egresados de pregrado con personas a su cargo ha experimentado una caída sostenida y progresiva, pasando del 57% en 2022 al 51% en 2025.
+                </p>
+                <div class="chart-container">
+                    <canvas id="chartDependencia"></canvas>
+                </div>
+            </div>
 
-<!-- Salto de página explícito para PDF -->
-<div class="html2pdf__page-break"></div>
+            <div class="glass-panel p-6 border-t-4 border-[#FFD300]">
+                <h3 class="text-xl font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#128176;</span> Independencia en la Financiación</h3>
+                <p class="text-sm text-slate-500 mb-6 font-light">
+                    Se observa una transición financiera clave: el uso del crédito educativo se contrajo al 28%, mientras que el respaldo mediante becas y subsidios subió hasta el 21%.
+                </p>
+                <div class="chart-container">
+                    <canvas id="chartFinanciacion"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- SECCIÓN 2 -->
-<section id="laboral" class="scroll-mt-24 avoid-break">
-    <div class="mb-10 text-center md:text-left">
-            <h2 class="heading-underline text-3xl font-bold text-[#212844] mb-4">
-                2. Inserción Laboral Constante (Pregrado)
-            </h2>
-            <p class="text-slate-600 text-lg max-w-4xl font-light">
-                El título universitario de UNIMINUTO demuestra ser un fuerte catalizador de productividad. Los datos confirman un crecimiento continuo en la ocupación temprana, mayor formalidad en la contratación y un claro salto hacia mejores rangos de ingresos.
-            </p>
-        </div>
+    <section id="laboral" class="scroll-mt-24">
+        <div class="mb-10 text-center md:text-left">
+            <h2 class="heading-underline text-3xl font-bold text-[#212844] mb-4">
+                2. Inserción Laboral Constante (Pregrado)
+            </h2>
+            <p class="text-slate-600 text-lg max-w-4xl font-light">
+                El título universitario de UNIMINUTO demuestra ser un fuerte catalizador de productividad. Los datos confirman un crecimiento continuo en la ocupación temprana, mayor formalidad en la contratación y un claro salto hacia mejores rangos de ingresos.
+            </p>
+        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="glass-panel avoid-break p-6 border-l-4 border-[#5BDFFF]">
-                <h3 class="text-lg font-bold text-[#212844] mb-2">Ocupación Efectiva</h3>
-                <p class="text-sm text-slate-500 mb-6 font-light h-16">
-                    El 79% de los egresados ya se encuentra empleado o liderando un emprendimiento al momento de graduarse.
-                </p>
-                <div class="chart-container avoid-break">
-                <canvas id="chartMovilidadSalarial"></canvas>
-            </div>
-        </div>
-    </div>
-</section>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass-panel p-6 border-l-4 border-[#5BDFFF]">
+                <h3 class="text-lg font-bold text-[#212844] mb-2">Ocupación Efectiva</h3>
+                <p class="text-sm text-slate-500 mb-6 font-light h-16">
+                    El 79% de los egresados ya se encuentra empleado o liderando un emprendimiento al momento de graduarse.
+                </p>
+                <div class="chart-container">
+                    <canvas id="chartOcupacion"></canvas>
+                </div>
+            </div>
 
-<!-- Salto de página explícito para PDF -->
-<div class="html2pdf__page-break"></div>
+            <div class="glass-panel p-6 border-l-4 border-[#212844]">
+                <h3 class="text-lg font-bold text-[#212844] mb-2">Estabilidad Contractual</h3>
+                <p class="text-sm text-slate-500 mb-6 font-light h-16">
+                    Los contratos formales se consolidan; un destacado 58% de los profesionales cuenta con vinculación a término indefinido.
+                </p>
+                <div class="chart-container">
+                    <canvas id="chartContrato"></canvas>
+                </div>
+            </div>
 
-<!-- SECCIÓN 3 -->
-<section id="posgrado" class="scroll-mt-24 avoid-break">
-    <div class="bg-[#ffffff] rounded-2xl p-8 border border-slate-200 shadow-sm relative overflow-hidden">
-            <div class="absolute -right-10 -top-10 text-[150px] opacity-5 select-none">&#127891;</div>
-            <div class="mb-10 relative z-10 text-center md:text-left">
-                <h2 class="heading-underline text-3xl font-bold text-[#212844] mb-4">
-                    3. Consolidación del Posgrado
-                </h2>
-                <p class="text-slate-600 text-lg max-w-4xl font-light">
-                    Los profesionales buscan mayor profundidad intelectual y técnica. La institución ha respondido consolidando su oferta de nivel superior, lo cual se refleja en un auge de maestrías y un índice de satisfacción positivo.
-                </p>
-            </div>
+            <div class="glass-panel p-6 border-l-4 border-[#FFD300]">
+                <h3 class="text-lg font-bold text-[#212844] mb-2">Movilidad Salarial</h3>
+                <p class="text-sm text-slate-500 mb-6 font-light h-16">
+                    Reducción de la precariedad salarial (< 1 SMMLV) y aumento pronunciado en el segmento intermedio de ingresos.
+                </p>
+                <div class="chart-container">
+                    <canvas id="chartMovilidadSalarial"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 relative z-10">
-                <div class="avoid-break">
-                    <h3 class="text-xl font-bold text-[#212844] mb-2">El Boom de las Maestrías</h3>
-                    <p class="text-sm text-slate-500 mb-6 font-light">
-                        La participación de este nivel de formación superior tuvo un gran salto en el cuatrienio, pasando del 18% en 2022 al 23% en la medición actual.
-                    </p>
-                    <div class="chart-container avoid-break">
-                    <canvas id="chartExpectativas"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    <section id="posgrado" class="scroll-mt-24">
+        <div class="bg-[#ffffff] rounded-2xl p-8 border border-slate-200 shadow-sm relative overflow-hidden">
+            <div class="absolute -right-10 -top-10 text-[150px] opacity-5 select-none">&#127891;</div>
+            <div class="mb-10 relative z-10 text-center md:text-left">
+                <h2 class="heading-underline text-3xl font-bold text-[#212844] mb-4">
+                    3. Consolidación del Posgrado
+                </h2>
+                <p class="text-slate-600 text-lg max-w-4xl font-light">
+                    Los profesionales buscan mayor profundidad intelectual y técnica. La institución ha respondido consolidando su oferta de nivel superior, lo cual se refleja en un auge de maestrías y un índice de satisfacción positivo.
+                </p>
+            </div>
 
-<!-- Salto de página explícito para PDF -->
-<div class="html2pdf__page-break"></div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 relative z-10">
+                <div>
+                    <h3 class="text-xl font-bold text-[#212844] mb-2">El Boom de las Maestrías</h3>
+                    <p class="text-sm text-slate-500 mb-6 font-light">
+                        La participación de este nivel de formación superior tuvo un gran salto en el cuatrienio, pasando del 18% en 2022 al 23% en la medición actual.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="chartMaestrias"></canvas>
+                    </div>
+                </div>
 
-<!-- SECCIÓN 4 -->
-<section id="sectores" class="scroll-mt-24 avoid-break">
-    <div class="mb-10 text-center md:text-left">
-            <h2 class="heading-underline text-3xl font-bold text-[#212844] mb-4">
-                4. Reconfiguración Sectorial: Madurez Laboral
-            </h2>
-            <p class="text-slate-600 text-lg max-w-4xl font-light">
-                La cohorte de posgrado presenta un perfil demográfico experimentado. Esta madurez facilita la penetración en el sector educativo y garantiza un crecimiento sostenido en el acceso a posiciones de alta gerencia y remuneración de alto nivel.
-            </p>
-        </div>
+                <div>
+                    <h3 class="text-xl font-bold text-[#212844] mb-2">Expectativas Personales Cumplidas</h3>
+                    <p class="text-sm text-slate-500 mb-6 font-light">
+                        La valoración de la cohorte frente a la calidad formativa es positiva, logrando estabilizar la satisfacción general en un 95%.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="chartExpectativas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-            
-            <div class="md:col-span-4 flex flex-col gap-6 avoid-break">
-                <div class="bg-[#212844] text-white p-6 rounded-2xl shadow-lg text-center">
-                    <p class="text-[#FFD300] font-bold tracking-widest uppercase text-sm mb-2">Perfil Sénior (2025)</p>
-                    <div class="text-6xl font-bold mb-2">59%</div>
-                    <p class="text-blue-100 font-light text-sm">De los egresados de posgrado posee <br><strong class="text-white">5 años o más</strong> de experiencia previa.</p>
-                </div>
-                
-                <div class="glass-panel avoid-break p-6 border-b-4 border-[#5BDFFF]">
-                    <h3 class="text-lg font-bold text-[#212844] mb-2">Alto Nivel (Salarios)</h3>
-                    <p class="text-xs text-slate-500 mb-4 font-light">
-                        Crecimiento sostenido en altas posiciones (Ingresos entre 5 y 10 SMMLV).
-                    </p>
-                    <div class="chart-container avoid-break" style="height: 180px;">
-                        <canvas id="chartSalariosPosgrado"></canvas>
-                    </div>
-                </div>
-            </div>
+    <section id="sectores" class="scroll-mt-24">
+        <div class="mb-10 text-center md:text-left">
+            <h2 class="heading-underline text-3xl font-bold text-[#212844] mb-4">
+                4. Reconfiguración Sectorial: Madurez Laboral
+            </h2>
+            <p class="text-slate-600 text-lg max-w-4xl font-light">
+                La cohorte de posgrado presenta un perfil demográfico experimentado. Esta madurez facilita la penetración en el sector educativo y garantiza un crecimiento sostenido en el acceso a posiciones de alta gerencia y remuneración de alto nivel.
+            </p>
+        </div>
 
-            <div class="md:col-span-8 glass-panel avoid-break p-8 border-l-4 border-[#FFD300]">
-                <h3 class="text-xl font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#127979;</span> Auge del Sector Educación</h3>
-                <p class="text-sm text-slate-500 mb-6 font-light">
-                    Tras no registrar una participación significativa en 2022 y 2023, la absorción laboral de nuestros especialistas y magísteres en el sector educativo saltó de forma positiva al 22% en 2025.
-                </p>
-                <div class="chart-container avoid-break">
-                <canvas id="chartSectorEducacion"></canvas>
-            </div>
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            
+            <div class="md:col-span-4 flex flex-col gap-6">
+                <div class="bg-[#212844] text-white p-6 rounded-2xl shadow-lg text-center transform hover:scale-105 transition-transform">
+                    <p class="text-[#FFD300] font-bold tracking-widest uppercase text-sm mb-2">Perfil Sénior (2025)</p>
+                    <div class="text-6xl font-bold mb-2">59%</div>
+                    <p class="text-blue-100 font-light text-sm">De los egresados de posgrado posee <br><strong class="text-white">5 años o más</strong> de experiencia previa.</p>
+                </div>
+                
+                <div class="glass-panel p-6 border-b-4 border-[#5BDFFF]">
+                    <h3 class="text-lg font-bold text-[#212844] mb-2">Alto Nivel (Salarios Posgrado)</h3>
+                    <p class="text-xs text-slate-500 mb-4 font-light">
+                        Crecimiento sostenido en altas posiciones (Ingresos entre 5 y 10 SMMLV).
+                    </p>
+                    <div class="chart-container" style="height: 180px;">
+                        <canvas id="chartSalariosPosgrado"></canvas>
+                    </div>
+                </div>
+            </div>
 
-    </div>
-</section>
+            <div class="md:col-span-8 glass-panel p-8 border-l-4 border-[#FFD300]">
+                <h3 class="text-xl font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#127979;</span> Auge del Sector Educación</h3>
+                <p class="text-sm text-slate-500 mb-6 font-light">
+                    Tras no registrar una participación significativa en 2022 y 2023, la absorción laboral de nuestros especialistas y magísteres en el sector educativo saltó de forma positiva al 22% en 2025.
+                </p>
+                <div class="chart-container">
+                    <canvas id="chartSectorEducacion"></canvas>
+                </div>
+            </div>
 
-<!-- Salto de página explícito para PDF -->
-<div class="html2pdf__page-break"></div>
+        </div>
+    </section>
 
-<!-- SECCIÓN 5 -->
-<section id="fidelizacion" class="scroll-mt-24 mb-16 avoid-break">
-    <div class="mb-10 text-center md:text-left">
-            <h2 class="heading-underline text-3xl font-bold text-[#212844] mb-4">
-                5. Fidelización y Reconocimiento
-            </h2>
-            <p class="text-slate-600 text-lg max-w-4xl font-light">
-                La propuesta de valor de UNIMINUTO se reafirma en el entorno corporativo. El mercado laboral valora progresivamente a nuestros egresados, quienes, a su vez, mantienen altos estándares de exigencia y satisfacción con las ofertas de actualización continua.
-            </p>
-        </div>
+    <section id="fidelizacion" class="scroll-mt-24 mb-16">
+        <div class="mb-10 text-center md:text-left">
+            <h2 class="heading-underline text-3xl font-bold text-[#212844] mb-4">
+                5. Fidelización y Reconocimiento
+            </h2>
+            <p class="text-slate-600 text-lg max-w-4xl font-light">
+                La propuesta de valor de UNIMINUTO se reafirma en el entorno corporativo. El mercado laboral valora progresivamente a nuestros egresados, quienes, a su vez, mantienen altos estándares de exigencia y satisfacción con las ofertas de actualización continua.
+            </p>
+        </div>
 
-        <div class="glass-panel avoid-break p-8 border-t-[6px] border-[#212844] bg-slate-50">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                <div class="lg:col-span-1 space-y-6">
-                    <div>
-                        <h4 class="font-bold text-[#212844] text-lg mb-1 flex items-center">
-                            <span class="mr-2 text-xl">&#127970;</span> Reconocimiento Corporativo
-                        </h4>
-                        <p class="text-sm text-slate-600 font-light">
-                            La percepción de que el título de UNIMINUTO otorga alta valoración competitiva frente a las empresas creció del 90% al 93%.
-                        </p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-[#212844] text-lg mb-1 flex items-center">
-                            <span class="mr-2 text-xl">&#128218;</span> Actualización Extracurricular
-                        </h4>
-                        <p class="text-sm text-slate-600 font-light">
-                            La satisfacción general con seminarios y congresos de profundización experimentó un salto de 7 puntos.
-                        </p>
-                    </div>
-                </div>
-                <div class="lg:col-span-2">
-                    <div class="chart-container avoid-break">
-                        <canvas id="chartFidelizacion"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <div class="glass-panel p-8 border-t-[6px] border-[#212844] bg-slate-50">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <div class="lg:col-span-1 space-y-6">
+                    <div>
+                        <h4 class="font-bold text-[#212844] text-lg mb-1 flex items-center">
+                            <span class="mr-2 text-xl">&#127970;</span> Reconocimiento Corporativo
+                        </h4>
+                        <p class="text-sm text-slate-600 font-light">
+                            La percepción de que el título de UNIMINUTO otorga alta valoración competitiva frente a las empresas creció del 90% al 93%.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-[#212844] text-lg mb-1 flex items-center">
+                            <span class="mr-2 text-xl">&#128218;</span> Actualización Extracurricular
+                        </h4>
+                        <p class="text-sm text-slate-600 font-light">
+                            La satisfacción general con seminarios y congresos de profundización experimentó un salto de 7 puntos.
+                        </p>
+                    </div>
+                </div>
+                <div class="lg:col-span-2">
+                    <div class="chart-container">
+                        <canvas id="chartFidelizacion"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 </main>
 
-<footer class="bg-[#212844] py-12 text-white border-t-4 border-[#5BDFFF] avoid-break">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
-        <div class="text-center md:text-left">
-            <h2 class="font-bold text-xl text-[#FFD300] mb-1">Corporación Universitaria Minuto de Dios</h2>
-            <p class="text-blue-200 font-light text-sm italic">"Educación de calidad al alcance de todos"</p>
-            <p class="text-blue-400 text-xs mt-4 uppercase tracking-widest">Seguimiento Momento Cero 2022-2025</p>
-        </div>
-        <div class="flex items-center justify-center bg-white/5 p-4 md:p-6 rounded-xl">
-        <img src="logo-clubviveuniminuto.png" alt="Club Egresados" class="h-16 md:h-24 object-contain brightness-0 invert" onerror="this.style.display='none'">
-    </div>
-</div>
+<footer class="bg-[#212844] py-12 text-white border-t-4 border-[#5BDFFF]">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
+        <div class="text-center md:text-left">
+            <h2 class="font-bold text-xl text-[#FFD300] mb-1">Corporación Universitaria Minuto de Dios</h2>
+            <p class="text-blue-200 font-light text-sm italic">"Educación de calidad al alcance de todos"</p>
+            <p class="text-blue-400 text-xs mt-4 uppercase tracking-widest">Seguimiento Momento Cero 2022-2025</p>
+        </div>
+        <div class="flex items-center justify-center bg-white/5 p-4 md:p-6 rounded-xl">
+            <img src="logo-clubviveuniminuto.png" alt="Club Egresados" class="h-16 md:h-24 object-contain brightness-0 invert" onerror="this.style.display='none'">
+        </div>
+    </div>
 </footer>
-
-</div> <!-- Cierre del contenedor maestro del PDF -->
 
 <script>
 window.onload = function() {
-    
-    // ---- LÓGICA PARA EXPORTACIÓN PERFECTA A PDF ----
-    function generatePDF() {
-        const btn = document.getElementById('downloadPdfBtn');
-        const btnMobile = document.getElementById('downloadPdfBtnMobile');
-        
-        // Usamos el nuevo contenedor en lugar de todo el body
-        const element = document.getElementById('pdf-wrapper');
-        
-        // 1. Llevar al usuario al top para evitar cortes en la "foto" generada
-        window.scrollTo(0, 0);
-        
-        // Feedback visual
-        const originalText = btn.innerHTML;
-        const originalTextMobile = btnMobile.innerHTML;
-        btn.innerHTML = '&#8987; Procesando...';
-        btnMobile.innerHTML = '&#8987; PDF';
-        
-        // 2. Opciones avanzadas de html2pdf con saltos de página obligatorios
-        const opt = {
-            margin:       [0.4, 0, 0.4, 0], // Margen superior e inferior
-            filename:     'Infografia_Egresados_UNIMINUTO.pdf',
-            image:        { type: 'jpeg', quality: 1 },
-            html2canvas:  { scale: 2, useCORS: true, scrollY: 0, windowWidth: 1200 },
-            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
-            pagebreak:    { mode: ['css', 'legacy'] } // Usa los saltos insertados en el HTML
-        };
+    const colors = {
+        primary: '#212844',
+        accent1: '#FFD300',
+        accent2: '#5BDFFF',
+        textSoft: '#64748B',
+        danger: '#ef4444',
+        success: '#10b981'
+    };
 
-        // Generar PDF
-        html2pdf().set(opt).from(element).save().then(() => {
-            // Restaurar botones
-            btn.innerHTML = originalText;
-            btnMobile.innerHTML = originalTextMobile;
-        }).catch(err => {
-            console.error('Error generando PDF: ', err);
-            btn.innerHTML = originalText;
-            btnMobile.innerHTML = originalTextMobile;
-        });
-    }
+    Chart.defaults.font.family = "'Montserrat', sans-serif";
+    Chart.defaults.color = colors.textSoft;
 
-    document.getElementById('downloadPdfBtn').addEventListener('click', generatePDF);
-    document.getElementById('downloadPdfBtnMobile').addEventListener('click', generatePDF);
+    function processLabel(labelStr, limit) {
+        if (typeof labelStr !== 'string') labelStr = String(labelStr);
+        if (labelStr.length <= limit) return labelStr;
+        
+        const words = labelStr.split(' ');
+        const lines = [];
+        let currentLine = '';
 
+        for (let i = 0; i < words.length; i++) {
+            const word = words[i];
+            if ((currentLine + word).length > limit) {
+                if (currentLine.trim() !== '') lines.push(currentLine.trim());
+                currentLine = word + ' ';
+            } else {
+                currentLine += word + ' ';
+            }
+        }
+        if (currentLine.trim() !== '') lines.push(currentLine.trim());
+        
+        return lines.length > 1 ? lines : lines[0];
+    }
 
-    // ---- CONFIGURACIÓN DE GRÁFICOS (Chart.js) ----
-    const colors = {
-        primary: '#212844',
-        accent1: '#FFD300',
-        accent2: '#5BDFFF',
-        textSoft: '#64748B',
-        danger: '#ef4444',
-        success: '#10b981'
-    };
+    function wrapLabels(labelsArray, limit = 16) {
+        if (!Array.isArray(labelsArray)) return labelsArray;
+        return labelsArray.map(label => processLabel(label, limit));
+    }
 
-    Chart.defaults.font.family = "'Montserrat', sans-serif";
-    Chart.defaults.color = colors.textSoft;
-    
-    // 4. CRUCIAL PARA PDF: Desactivar animaciones para que el gráfico se capture 100% dibujado
-    Chart.defaults.animation = false;
+    const mandatoryTooltipConfig = {
+        callbacks: {
+            title: function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                } else {
+                    return label;
+                }
+            }
+        }
+    };
 
-    function processLabel(labelStr, limit) {
-        if (typeof labelStr !== 'string') labelStr = String(labelStr);
-        if (labelStr.length <= limit) return labelStr;
-        
-        const words = labelStr.split(' ');
-        const lines = [];
-        let currentLine = '';
+    const anosBase = ['2022', '2023', '2024', '2025'];
+    const labelsAnos = wrapLabels(anosBase);
 
-        for (let i = 0; i < words.length; i++) {
-            const word = words[i];
-            if ((currentLine + word).length > limit) {
-                if (currentLine.trim() !== '') lines.push(currentLine.trim());
-                currentLine = word + ' ';
-            } else {
-                currentLine += word + ' ';
-            }
-        }
-        if (currentLine.trim() !== '') lines.push(currentLine.trim());
-        
-        return lines.length > 1 ? lines : lines[0];
-    }
+    // 1. Dependencia
+    new Chart(document.getElementById('chartDependencia').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: labelsAnos,
+            datasets: [{
+                label: 'Personas a cargo (%)',
+                data: [57, 55, 53, 51],
+                borderColor: colors.primary,
+                backgroundColor: 'rgba(33, 40, 68, 0.05)',
+                pointBackgroundColor: colors.accent1,
+                pointBorderColor: colors.primary,
+                pointRadius: 6,
+                borderWidth: 3,
+                fill: true,
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
+            scales: { y: { min: 45, max: 65, ticks: { stepSize: 5 } } }
+        }
+    });
 
-    function wrapLabels(labelsArray, limit = 16) {
-        if (!Array.isArray(labelsArray)) return labelsArray;
-        return labelsArray.map(label => processLabel(label, limit));
-    }
+    // 2. Financiación
+    new Chart(document.getElementById('chartFinanciacion').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: labelsAnos,
+            datasets: [
+                {
+                    label: 'Crédito Educativo (%)',
+                    data: [31, 29, 28, 28],
+                    backgroundColor: colors.primary,
+                    borderRadius: 4
+                },
+                {
+                    label: 'Becas y Subsidios (%)',
+                    data: [15, 18, 21, 21],
+                    backgroundColor: colors.accent1,
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'top' } },
+            scales: { y: { beginAtZero: true, max: 40 } }
+        }
+    });
 
-    const mandatoryTooltipConfig = {
-        callbacks: {
-            title: function(tooltipItems) {
-                const item = tooltipItems[0];
-                let label = item.chart.data.labels[item.dataIndex];
-                if (Array.isArray(label)) {
-                    return label.join(' ');
-                } else {
-                    return label;
-                }
-            }
-        }
-    };
+    // 3. Ocupación
+    new Chart(document.getElementById('chartOcupacion').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: labelsAnos,
+            datasets: [{
+                label: 'Ocupación Efectiva (%)',
+                data: [75, 77, 78, 79],
+                backgroundColor: colors.accent2,
+                borderRadius: { topLeft: 6, topRight: 6 }
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
+            scales: { y: { min: 65, max: 85 } }
+        }
+    });
 
-    const anosBase = ['2022', '2023', '2024', '2025'];
-    const labelsAnos = wrapLabels(anosBase);
+    // 4. Contrato
+    new Chart(document.getElementById('chartContrato').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: labelsAnos,
+            datasets: [{
+                label: 'Contrato Indefinido (%)',
+                data: [56, 57, 58, 58],
+                backgroundColor: colors.primary,
+                borderRadius: { topLeft: 6, topRight: 6 }
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
+            scales: { y: { min: 45, max: 65 } }
+        }
+    });
 
-    // 1. Dependencia
-    new Chart(document.getElementById('chartDependencia').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: labelsAnos,
-            datasets: [{
-                label: 'Personas a cargo (%)',
-                data: [57, 55, 53, 51],
-                borderColor: colors.primary,
-                backgroundColor: 'rgba(33, 40, 68, 0.05)',
-                pointBackgroundColor: colors.accent1,
-                pointBorderColor: colors.primary,
-                pointRadius: 6,
-                borderWidth: 3,
-                fill: true,
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { min: 45, max: 65, ticks: { stepSize: 5 } } }
-        }
-    });
+    // 5. Salarios
+    new Chart(document.getElementById('chartMovilidadSalarial').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: labelsAnos,
+            datasets: [
+                {
+                    label: '< 1 SMMLV (%)',
+                    data: [15, 14, 12, 11],
+                    backgroundColor: colors.danger,
+                    borderRadius: 3
+                },
+                {
+                    label: '1.5 a 2 SMMLV (%)',
+                    data: [15, 17, 20, 22],
+                    backgroundColor: colors.success,
+                    borderRadius: 3
+                }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'top', labels: { boxWidth: 12 } } },
+            scales: { y: { beginAtZero: true, max: 30 } }
+        }
+    });
 
-    // 2. Financiación
-    new Chart(document.getElementById('chartFinanciacion').getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: labelsAnos,
-            datasets: [
-                {
-                    label: 'Crédito Educativo (%)',
-                    data: [31, 29, 28, 28],
-                    backgroundColor: colors.primary,
-                    borderRadius: 4
-                },
-                {
-                    label: 'Becas y Subsidios (%)',
-                    data: [15, 18, 21, 21],
-                    backgroundColor: colors.accent1,
-                    borderRadius: 4
-                }
-            ]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'top' } },
-            scales: { y: { beginAtZero: true, max: 40 } }
-        }
-    });
+    // 6. Maestrias
+    new Chart(document.getElementById('chartMaestrias').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: labelsAnos,
+            datasets: [{
+                label: 'Participación Maestrías (%)',
+                data: [18, 22, 25, 23],
+                borderColor: colors.accent1,
+                backgroundColor: 'rgba(255, 211, 0, 0.15)',
+                pointBackgroundColor: colors.primary,
+                borderWidth: 3,
+                pointRadius: 6,
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
+            scales: { y: { min: 10, max: 30 } }
+        }
+    });
 
-    // 3. Ocupación
-    new Chart(document.getElementById('chartOcupacion').getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: labelsAnos,
-            datasets: [{
-                label: 'Ocupación Efectiva (%)',
-                data: [75, 77, 78, 79],
-                backgroundColor: colors.accent2,
-                borderRadius: { topLeft: 6, topRight: 6 }
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { min: 65, max: 85 } }
-        }
-    });
+    // 7. Expectativas
+    new Chart(document.getElementById('chartExpectativas').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: labelsAnos,
+            datasets: [{
+                label: 'Expectativas Cumplidas (%)',
+                data: [93, 93, 95, 95],
+                borderColor: colors.accent2,
+                backgroundColor: 'rgba(91, 223, 255, 0.15)',
+                pointBackgroundColor: colors.primary,
+                borderWidth: 3,
+                pointRadius: 6,
+                fill: true,
+                tension: 0
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
+            scales: { y: { min: 85, max: 100 } }
+        }
+    });
 
-    // 4. Contrato
-    new Chart(document.getElementById('chartContrato').getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: labelsAnos,
-            datasets: [{
-                label: 'Contrato Indefinido (%)',
-                data: [56, 57, 58, 58],
-                backgroundColor: colors.primary,
-                borderRadius: { topLeft: 6, topRight: 6 }
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { min: 45, max: 65 } }
-        }
-    });
+    // 8. Sector Educación
+    new Chart(document.getElementById('chartSectorEducacion').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: labelsAnos,
+            datasets: [{
+                label: 'Absorción Sector Educación (%)',
+                data: [0, 0, 14, 22],
+                borderColor: colors.primary,
+                backgroundColor: 'rgba(33, 40, 68, 0.1)',
+                borderWidth: 3,
+                pointBackgroundColor: colors.accent1,
+                pointRadius: 6,
+                fill: true,
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
+            scales: { y: { beginAtZero: true, max: 30 } }
+        }
+    });
 
-    // 5. Salarios
-    new Chart(document.getElementById('chartMovilidadSalarial').getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: labelsAnos,
-            datasets: [
-                {
-                    label: '< 1 SMMLV (%)',
-                    data: [15, 14, 12, 11],
-                    backgroundColor: colors.danger,
-                    borderRadius: 3
-                },
-                {
-                    label: '1.5 a 2 SMMLV (%)',
-                    data: [15, 17, 20, 22],
-                    backgroundColor: colors.success,
-                    borderRadius: 3
-                }
-            ]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'top', labels: { boxWidth: 12 } } },
-            scales: { y: { beginAtZero: true, max: 30 } }
-        }
-    });
+    // 9. Salarios Posgrado
+    new Chart(document.getElementById('chartSalariosPosgrado').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: labelsAnos,
+            datasets: [{
+                label: 'Ingresos 5 a 10 SMMLV (%)',
+                data: [6, 7, 8, 10],
+                backgroundColor: colors.accent2,
+                borderRadius: { topLeft: 4, topRight: 4 }
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
+            scales: { y: { beginAtZero: true, max: 15 } }
+        }
+    });
 
-    // 6. Maestrias
-    new Chart(document.getElementById('chartMaestrias').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: labelsAnos,
-            datasets: [{
-                label: 'Participación Maestrías (%)',
-                data: [18, 22, 25, 23],
-                borderColor: colors.accent1,
-                backgroundColor: 'rgba(255, 211, 0, 0.15)',
-                pointBackgroundColor: colors.primary,
-                borderWidth: 3,
-                pointRadius: 6,
-                fill: true,
-                tension: 0.3
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { min: 10, max: 30 } }
-        }
-    });
-
-    // 7. Expectativas
-    new Chart(document.getElementById('chartExpectativas').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: labelsAnos,
-            datasets: [{
-                label: 'Expectativas Cumplidas (%)',
-                data: [93, 93, 95, 95],
-                borderColor: colors.accent2,
-                backgroundColor: 'rgba(91, 223, 255, 0.15)',
-                pointBackgroundColor: colors.primary,
-                borderWidth: 3,
-                pointRadius: 6,
-                fill: true,
-                tension: 0
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { min: 85, max: 100 } }
-        }
-    });
-
-    // 8. Sector Educación
-    new Chart(document.getElementById('chartSectorEducacion').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: labelsAnos,
-            datasets: [{
-                label: 'Absorción Sector Educación (%)',
-                data: [0, 0, 14, 22],
-                borderColor: colors.primary,
-                backgroundColor: 'rgba(33, 40, 68, 0.1)',
-                borderWidth: 3,
-                pointBackgroundColor: colors.accent1,
-                pointRadius: 6,
-                fill: true,
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { beginAtZero: true, max: 30 } }
-        }
-    });
-
-    // 9. Salarios Posgrado
-    new Chart(document.getElementById('chartSalariosPosgrado').getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: labelsAnos,
-            datasets: [{
-                label: 'Ingresos 5 a 10 SMMLV (%)',
-                data: [6, 7, 8, 10],
-                backgroundColor: colors.accent2,
-                borderRadius: { topLeft: 4, topRight: 4 }
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { beginAtZero: true, max: 15 } }
-        }
-    });
-
-    // 10. Fidelización
-    new Chart(document.getElementById('chartFidelizacion').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: labelsAnos,
-            datasets: [
-                {
-                    label: 'Reconocimiento Corporativo (%)',
-                    data: [90, 91, 92, 93],
-                    borderColor: colors.primary,
-                    pointBackgroundColor: colors.primary,
-                    borderWidth: 3,
-                    pointRadius: 6,
-                    tension: 0.1
-                },
-                {
-                    label: 'Satisfacción Seminarios (%)',
-                    data: [79, 81, 84, 86],
-                    borderColor: colors.accent2,
-                    pointBackgroundColor: colors.accent2,
-                    borderDash: [5, 5],
-                    borderWidth: 3,
-                    pointRadius: 6,
-                    tension: 0.1
-                }
-            ]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'top', labels: { font: { weight: 'bold' } } } },
-            scales: { y: { min: 70, max: 100 } }
-        }
-    });
+    // 10. Fidelización
+    new Chart(document.getElementById('chartFidelizacion').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: labelsAnos,
+            datasets: [
+                {
+                    label: 'Reconocimiento Corporativo (%)',
+                    data: [90, 91, 92, 93],
+                    borderColor: colors.primary,
+                    pointBackgroundColor: colors.primary,
+                    borderWidth: 3,
+                    pointRadius: 6,
+                    tension: 0.1
+                },
+                {
+                    label: 'Satisfacción Seminarios (%)',
+                    data: [79, 81, 84, 86],
+                    borderColor: colors.accent2,
+                    pointBackgroundColor: colors.accent2,
+                    borderDash: [5, 5],
+                    borderWidth: 3,
+                    pointRadius: 6,
+                    tension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'top', labels: { font: { weight: 'bold' } } } },
+            scales: { y: { min: 70, max: 100 } }
+        }
+    });
 };
 </script>
 </body>
