@@ -69,6 +69,16 @@
             <a href="#consolidación" class="hover:text-[#5BDFFF] transition-colors">Consolidación</a>
             <a href="#sectores" class="hover:text-[#5BDFFF] transition-colors">Sectores</a>
             <a href="#fidelizacion" class="hover:text-[#5BDFFF] transition-colors">Fidelización</a>
+            <!-- Botón de Descarga JPG -->
+            <button id="downloadJpgBtn" data-html2canvas-ignore class="ml-4 bg-[#FFD300] text-[#212844] px-4 py-2 rounded-full font-bold hover:bg-yellow-400 transition-colors shadow-md flex items-center">
+                &#128229; DESCARGAR JPG
+            </button>
+        </div>
+        <!-- Botón versión móvil -->
+        <div class="md:hidden flex items-center">
+            <button id="downloadJpgBtnMobile" data-html2canvas-ignore class="bg-[#FFD300] text-[#212844] px-3 py-1.5 rounded-full font-bold text-xs hover:bg-yellow-400 transition-colors shadow-md">
+                &#128229; JPG
+            </button>
         </div>
     </div>
 </nav>
@@ -324,6 +334,66 @@
 
 <script>
 window.onload = function() {
+    // ---- LÓGICA PARA EXPORTACIÓN COMPLETA A IMAGEN JPG ----
+    function generateJPG() {
+        const btn = document.getElementById('downloadJpgBtn');
+        const btnMobile = document.getElementById('downloadJpgBtnMobile');
+        const nav = document.getElementById('main-nav');
+        
+        // 1. Llevar al usuario al top para evitar cortes
+        window.scrollTo(0, 0);
+        
+        // Feedback visual
+        const originalText = btn.innerHTML;
+        const originalTextMobile = btnMobile.innerHTML;
+        btn.innerHTML = '&#8987; Procesando...';
+        btnMobile.innerHTML = '&#8987; JPG';
+        
+        // 2. Liberar el nav para que no se superponga flotando a la mitad
+        nav.style.position = 'relative';
+        
+        // 3. Capturar TODO el body de la página calculando su altura total
+        // Esto garantiza que la infografía larga se capture de principio a fin
+        const fullHeight = Math.max(
+            document.body.scrollHeight, 
+            document.documentElement.scrollHeight
+        );
+        
+        html2canvas(document.body, {
+            scale: 2,               // Alta calidad de imagen
+            useCORS: true,          // Permite cargar logos/imágenes locales
+            scrollY: 0,
+            backgroundColor: '#f8fafc', // Fondo igual al de la página
+            windowWidth: Math.max(1200, window.innerWidth),
+            windowHeight: fullHeight,
+            height: fullHeight      // Altura forzada total
+        }).then(canvas => {
+            // Convertir a formato JPG
+            const imgData = canvas.toDataURL('image/jpeg', 0.95);
+            
+            // Crear enlace virtual para descargar la imagen
+            const link = document.createElement('a');
+            link.href = imgData;
+            link.download = 'Infografia_Completa_Egresados_UNIMINUTO.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Restaurar diseño original de los botones
+            btn.innerHTML = originalText;
+            btnMobile.innerHTML = originalTextMobile;
+            nav.style.position = 'sticky';
+        }).catch(err => {
+            console.error('Error generando JPG: ', err);
+            btn.innerHTML = originalText;
+            btnMobile.innerHTML = originalTextMobile;
+            nav.style.position = 'sticky';
+        });
+    }
+
+    document.getElementById('downloadJpgBtn').addEventListener('click', generateJPG);
+    document.getElementById('downloadJpgBtnMobile').addEventListener('click', generateJPG);
+    
     const colors = {
         primary: '#212844',
         accent1: '#FFD300',
