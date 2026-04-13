@@ -99,6 +99,30 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+         <!-- Gráfico Nuevo 1: Sexo -->
+            <div class="glass-panel avoid-break p-6 border-t-4 border-[#5BDFFF]">
+                <h3 class="text-xl font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#128105;&#8205;&#127891;</span> Distribución por Sexo</h3>
+                <p class="text-sm text-slate-500 mb-6 font-light">
+                    Consolidación de la participación femenina, representando a más de dos tercios de la cohorte de pregrado al cierre de 2025.
+                </p>
+                <div class="chart-container avoid-break">
+                    <canvas id="chartSexoPregrado"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráfico Nuevo 2: Estrato -->
+            <div class="glass-panel avoid-break p-6 border-t-4 border-[#212844]">
+                <h3 class="text-xl font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#127960;</span> Estrato Socioeconómico</h3>
+                <p class="text-sm text-slate-500 mb-6 font-light">
+                    El impacto misional se mantiene fuerte, con una concentración mayoritaria de los profesionales provenientes de los estratos 2 y 3.
+                </p>
+                <div class="chart-container avoid-break">
+                    <canvas id="chartEstrato"></canvas>
+                </div>
+            </div>
+            
+            <!-- Gráfico Existente: Dependencia Económica -->
             <div class="glass-panel p-6 border-t-4 border-[#212844]">
                 <h3 class="text-xl font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#128106;</span> Disminución de la Dependencia Económica</h3>
                 <p class="text-sm text-slate-500 mb-6 font-light">
@@ -109,6 +133,7 @@
                 </div>
             </div>
 
+            <!-- Gráfico Existente: Financiación -->
             <div class="glass-panel p-6 border-t-4 border-[#FFD300]">
                 <h3 class="text-xl font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#128176;</span> Independencia en la Financiación</h3>
                 <p class="text-sm text-slate-500 mb-6 font-light">
