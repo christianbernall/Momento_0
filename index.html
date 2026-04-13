@@ -379,6 +379,43 @@ window.onload = function() {
 
     const anosBase = ['2022', '2023', '2024', '2025'];
     const labelsAnos = wrapLabels(anosBase);
+    
+// NUEVO: 1. Sexo Pregrado (Donut)
+    new Chart(document.getElementById('chartSexoPregrado').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: wrapLabels(['Mujeres (71%)', 'Hombres (29%)']),
+            datasets: [{
+                data: [71, 29],
+                backgroundColor: [colors.primary, colors.accent2],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'right' } }
+        }
+    });
+
+    // NUEVO: 2. Estrato Socioeconómico (Barra Horizontal)
+    new Chart(document.getElementById('chartEstrato').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: wrapLabels(['Estrato 1', 'Estrato 2', 'Estrato 3', 'Estratos 4, 5 y 6']),
+            datasets: [{
+                label: 'Distribución (%)',
+                data: [15, 55, 25, 5], // Datos representativos (Placeholder)
+                backgroundColor: [colors.accent2, colors.primary, colors.accent1, '#CBD5E1'],
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
+            scales: { y: { beginAtZero: true, max: 65 } }
+        }
+    });
 
     // 1. Dependencia
     new Chart(document.getElementById('chartDependencia').getContext('2d'), {
