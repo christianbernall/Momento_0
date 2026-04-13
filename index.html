@@ -394,6 +394,7 @@ window.onload = function() {
     document.getElementById('downloadJpgBtn').addEventListener('click', generateJPG);
     document.getElementById('downloadJpgBtnMobile').addEventListener('click', generateJPG);
     
+        // ---- CONFIGURACIÓN DE GRÁFICOS (Chart.js) ----
     const colors = {
         primary: '#212844',
         accent1: '#FFD300',
@@ -405,6 +406,9 @@ window.onload = function() {
 
     Chart.defaults.font.family = "'Montserrat', sans-serif";
     Chart.defaults.color = colors.textSoft;
+    
+    // CRUCIAL PARA EXPORTACIÓN: Desactivar animaciones para que el gráfico se capture 100% dibujado
+    Chart.defaults.animation = false;
 
     function processLabel(labelStr, limit) {
         if (typeof labelStr !== 'string') labelStr = String(labelStr);
