@@ -201,6 +201,50 @@
         </div>
     </section>
 
+    <!-- 3. SATISFACCIÓN PREGRADO (NUEVA SECCIÓN) -->
+    <section id="satisfaccion-pregrado" class="scroll-mt-24 avoid-break">
+        <div class="mb-10 text-center md:text-left">
+            <h2 class="heading-underline text-3xl font-bold text-[#212844] mb-4">
+                3. Satisfacción Institucional y Académica (Pregrado)
+            </h2>
+            <p class="text-slate-600 text-lg max-w-4xl font-light">
+                La experiencia del egresado de pregrado mantiene indicadores de excelencia generalizados. Se destaca una alta valoración hacia la calidad de los programas y el cuerpo docente, aunque se identifican retos estratégicos en el acompañamiento para la inserción laboral.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            
+            <!-- Gráfico: Satisfacción General -->
+            <div class="md:col-span-8 glass-panel avoid-break p-8 border-l-4 border-[#FFD300]">
+                <h3 class="text-xl font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#11088;</span> Niveles de Satisfacción (Top Two Boxes)</h3>
+                <p class="text-sm text-slate-500 mb-6 font-light">
+                    Porcentaje de egresados Totalmente Satisfechos o Satisfechos con los componentes clave de su paso por la institución (Cohorte 2025).
+                </p>
+                <div class="chart-container avoid-break">
+                    <canvas id="chartSatisfaccionPregrado"></canvas>
+                </div>
+            </div>
+
+            <!-- Tarjetas de Fortalezas y Retos -->
+            <div class="md:col-span-4 flex flex-col gap-6 avoid-break">
+                <!-- Mayor Fortaleza -->
+                <div class="bg-[#212844] text-white p-6 rounded-2xl shadow-lg transform hover:scale-105 transition-transform">
+                    <p class="text-[#5BDFFF] font-bold tracking-widest uppercase text-sm mb-2">Mayor Fortaleza</p>
+                    <div class="text-5xl font-bold mb-2">96%</div>
+                    <p class="text-blue-100 font-light text-sm">Satisfacción general con el <strong class="text-white">programa académico cursado</strong> y la formación integral.</p>
+                </div>
+                
+                <!-- Oportunidad de Mejora -->
+                <div class="glass-panel avoid-break p-6 border-b-4 border-[#ef4444]">
+                    <p class="text-[#ef4444] font-bold tracking-widest uppercase text-sm mb-2">Oportunidad de Mejora</p>
+                    <div class="text-4xl font-bold text-[#212844] mb-2">19%</div>
+                    <p class="text-slate-600 font-light text-sm">Insatisfacción (BTB) con el <strong class="text-[#212844]">acompañamiento para búsqueda de oportunidades laborales</strong>.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
     <!-- 3. PERFIL POSGRADO (Datos Reales) -->
     <section id="perfil-posgrado" class="scroll-mt-24 avoid-break">
         <div class="mb-10 text-center md:text-left">
@@ -659,7 +703,30 @@ window.onload = function() {
             scales: { y: { beginAtZero: true, max: 30 } }
         }
     });
+    
+// ==========================================
+    // GRÁFICOS SECCIÓN 3: SATISFACCIÓN PREGRADO (NUEVO)
+    // ==========================================
 
+    new Chart(document.getElementById('chartSatisfaccionPregrado').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: wrapLabels(['Programa Académico', 'Institución General', 'Servicios Apoyo Académico', 'Infraestructura Aulas']),
+            datasets: [{
+                label: 'Satisfacción (Top Two Boxes %)',
+                data: [96, 95, 91, 90], // Datos reales del informe
+                backgroundColor: [colors.accent2, colors.primary, colors.accent1, '#CBD5E1'],
+                borderRadius: 4
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Gráfico horizontal para facilitar la lectura de categorías largas
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
+            scales: { x: { beginAtZero: true, max: 100 } }
+        }
+    });
+ 
     // ==========================================
     // GRÁFICOS SECCIÓN 3: PERFIL POSGRADO (DATOS REALES)
     // ==========================================
