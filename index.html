@@ -254,7 +254,7 @@
                 4. Caracterización general egresados - Posgrado
             </h2>
             <p class="text-slate-600 text-lg max-w-4xl font-light">
-                La cohorte de posgrado presenta características sociodemográficas que evidencian autonomía y responsabilidades de hogar. Se mantiene una clara predominancia femenina, y en su composición familiar destaca que más de la mitad son profesionales solteros, manteniendo un equilibrio casi perfecto entre quienes asumen sus estudios con hijos y quienes no.
+                La cohorte de posgrado presenta características sociodemográficas que evidencian autonomía y responsabilidades de hogar. Se mantiene una clara predominancia femenina, y en su composición familiar destaca que más de la mitad son profesionales solteros, manteniendo un equilibrio entre quienes asumen sus estudios con hijos y quienes no.
             </p>
         </div>
 
@@ -264,7 +264,7 @@
             <div class="glass-panel avoid-break p-6 border-t-4 border-[#5BDFFF]">
                 <h3 class="text-lg font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#128105;&#8205;&#127893;</span> Sexo (Posgrado)</h3>
                 <p class="text-xs text-slate-500 mb-6 font-light h-10">
-                    Mantenimiento de la participación femenina buscando alta cualificación, superando la franja del 60%.
+                    La participación femenina buscando alta cualificación, superando la franja del 60%.
                 </p>
                 <div class="chart-container avoid-break" style="height: 200px;">
                     <canvas id="chartSexoPosgrado"></canvas>
@@ -571,7 +571,7 @@ window.onload = function() {
             labels: wrapLabels(['Estrato 1', 'Estrato 2', 'Estrato 3', 'Estratos 4, 5 y 6']),
             datasets: [{
                 label: 'Distribución (%)',
-                data: [15, 55, 25, 5], // Datos representativos (Placeholder)
+                data: [20, 47, 30, 3], // Datos representativos (Placeholder)
                 backgroundColor: [colors.accent2, colors.primary, colors.accent1, '#CBD5E1'],
                 borderRadius: 4
             }]
@@ -590,7 +590,7 @@ window.onload = function() {
             labels: labelsAnos,
             datasets: [{
                 label: 'Personas a cargo (%)',
-                data: [57, 55, 53, 51],
+                data: [57, 54, 53, 51],
                 borderColor: colors.primary,
                 backgroundColor: 'rgba(33, 40, 68, 0.05)',
                 pointBackgroundColor: colors.accent1,
@@ -622,7 +622,7 @@ window.onload = function() {
                 },
                 {
                     label: 'Becas y Subsidios (%)',
-                    data: [15, 18, 21, 21],
+                    data: [15, 17, 19, 21],
                     backgroundColor: colors.accent1,
                     borderRadius: 4
                 }
@@ -642,7 +642,7 @@ window.onload = function() {
             labels: labelsAnos,
             datasets: [{
                 label: 'Ocupación Efectiva (%)',
-                data: [75, 77, 78, 79],
+                data: [75, 76, 78, 79],
                 backgroundColor: colors.accent2,
                 borderRadius: { topLeft: 6, topRight: 6 }
             }]
@@ -661,7 +661,7 @@ window.onload = function() {
             labels: labelsAnos,
             datasets: [{
                 label: 'Contrato Indefinido (%)',
-                data: [56, 57, 58, 58],
+                data: [56, 56, 58, 58],
                 backgroundColor: colors.primary,
                 borderRadius: { topLeft: 6, topRight: 6 }
             }]
@@ -681,13 +681,13 @@ window.onload = function() {
             datasets: [
                 {
                     label: '< 1 SMMLV (%)',
-                    data: [15, 14, 12, 11],
+                    data: [15, 15, 12, 11],
                     backgroundColor: colors.danger,
                     borderRadius: 3
                 },
                 {
                     label: '1.5 a 2 SMMLV (%)',
-                    data: [15, 17, 20, 22],
+                    data: [15, 17, 21, 22],
                     backgroundColor: colors.success,
                     borderRadius: 3
                 }
@@ -800,7 +800,7 @@ window.onload = function() {
                 },
                 {
                     label: 'Maestrías (%)',
-                    data: [18, 22, 25, 23],
+                    data: [18, 16, 25, 23],
                     borderColor: colors.accent1,
                     backgroundColor: 'rgba(255, 211, 0, 0.15)',
                     pointBackgroundColor: colors.accent1,
@@ -825,7 +825,7 @@ window.onload = function() {
             labels: labelsAnos,
             datasets: [{
                 label: 'Expectativas Cumplidas (%)',
-                data: [93, 93, 95, 95],
+                data: [93, 93, 94, 95],
                 borderColor: colors.accent2,
                 backgroundColor: 'rgba(91, 223, 255, 0.15)',
                 pointBackgroundColor: colors.primary,
@@ -860,7 +860,7 @@ window.onload = function() {
                 },
                 {
                     label: 'Construcción (%)',
-                    data: [12, 15, 12, 12],
+                    data: [14, 15, 12, 12],
                     borderColor: colors.accent2,
                     backgroundColor: colors.accent2,
                     borderWidth: 3,
@@ -870,7 +870,7 @@ window.onload = function() {
                 },
                 {
                     label: 'Otras act. de servicios (%)',
-                    data: [51, 43, 35, 28],
+                    data: [51, 48, 37, 28],
                     borderColor: colors.accent1,
                     backgroundColor: colors.accent1,
                     borderWidth: 3,
@@ -883,7 +883,7 @@ window.onload = function() {
         options: {
             responsive: true, maintainAspectRatio: false,
             plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10 } } } },
-            scales: { y: { beginAtZero: true, max: 25 } }
+            scales: { y: { beginAtZero: true, max: 60 } }
         }
     });
 
@@ -895,13 +895,13 @@ window.onload = function() {
             datasets: [
                 {
                     label: '1 a 3 SMMLV (%)',
-                    data: [45, 48, 52, 56], // Ascenso
+                    data: [45, 44, 53, 56], // Ascenso
                     backgroundColor: '#94A3B8',
                     borderRadius: 3
                 },
                 {
                     label: '3 a 5 SMMLV (%)',
-                    data: [49, 44, 38, 32], // Descenso
+                    data: [49, 48, 37, 32], // Descenso
                     backgroundColor: colors.accent2,
                     borderRadius: 3
                 },
@@ -928,7 +928,7 @@ window.onload = function() {
             datasets: [
                 {
                     label: 'Reconocimiento Corporativo (%)',
-                    data: [90, 91, 92, 93],
+                    data: [90, 91, 91, 93],
                     borderColor: colors.primary,
                     pointBackgroundColor: colors.primary,
                     borderWidth: 3,
