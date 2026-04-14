@@ -201,6 +201,55 @@
         </div>
     </section>
 
+    <!-- 3. PERFIL POSGRADO (Datos Reales) -->
+    <section id="perfil-posgrado" class="scroll-mt-24 avoid-break">
+        <div class="mb-10 text-center md:text-left">
+            <h2 class="heading-underline text-3xl font-bold text-[#212844] mb-4">
+                3. Caracterización del Egresado (Posgrado)
+            </h2>
+            <p class="text-slate-600 text-lg max-w-4xl font-light">
+                La cohorte de posgrado presenta características sociodemográficas que evidencian autonomía y responsabilidades de hogar. Se mantiene una clara predominancia femenina, y en su composición familiar destaca que más de la mitad son profesionales solteros, manteniendo un equilibrio casi perfecto entre quienes asumen sus estudios con hijos y quienes no.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Gráfico Real: Sexo Posgrado -->
+            <div class="glass-panel avoid-break p-6 border-t-4 border-[#5BDFFF]">
+                <h3 class="text-lg font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#128105;&#8205;&#127893;</span> Sexo (Posgrado)</h3>
+                <p class="text-xs text-slate-500 mb-6 font-light h-10">
+                    Mantenimiento de la participación femenina buscando alta cualificación, superando la franja del 60%.
+                </p>
+                <div class="chart-container avoid-break" style="height: 200px;">
+                    <canvas id="chartSexoPosgrado"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráfico Real: Estado Civil Posgrado -->
+            <div class="glass-panel avoid-break p-6 border-t-4 border-[#212844]">
+                <h3 class="text-lg font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#128141;</span> Estado Civil</h3>
+                <p class="text-xs text-slate-500 mb-6 font-light h-10">
+                    Predominan los profesionales solteros, seguidos por quienes conviven en pareja (Casados / Unión Libre).
+                </p>
+                <div class="chart-container avoid-break" style="height: 200px;">
+                    <canvas id="chartEstadoCivil"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráfico Real: Hijos Posgrado -->
+            <div class="glass-panel avoid-break p-6 border-t-4 border-[#FFD300]">
+                <h3 class="text-lg font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#128106;</span> Responsabilidad Familiar</h3>
+                <p class="text-xs text-slate-500 mb-6 font-light h-10">
+                    El 51% de los egresados de posgrado asume su formación a la par de sus responsabilidades como padres.
+                </p>
+                <div class="chart-container avoid-break" style="height: 200px;">
+                    <canvas id="chartHijos"></canvas>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
     <section id="consolidación" class="scroll-mt-24">
         <div class="bg-[#ffffff] rounded-2xl p-8 border border-slate-200 shadow-sm relative overflow-hidden">
             <div class="absolute -right-10 -top-10 text-[150px] opacity-5 select-none">&#127891;</div>
@@ -243,7 +292,7 @@
                 4. Caracterización Laboral - Posgrado
             </h2>
             <p class="text-slate-600 text-lg max-w-4xl font-light">
-                La cohorte de posgrado presenta un perfil demográfico experimentado. Esta madurez facilita la penetración en diversos sectores estratégicos de la economía, garantizando además un crecimiento sostenido en el acceso a posiciones de alta gerencia y remuneración de alto nivel.
+                La cohorte de posgrado presenta un perfil maduro y corporativo. Esta experiencia facilita la movilidad hacia posiciones mejor remuneradas y genera una reconfiguración en los sectores donde laboran los egresados.
             </p>
         </div>
 
@@ -257,9 +306,9 @@
                 </div>
                 
                 <div class="glass-panel p-6 border-b-4 border-[#5BDFFF]">
-                    <h3 class="text-lg font-bold text-[#212844] mb-2">Alta Gerencia (Salarios Posgrado)</h3>
+                    <h3 class="text-lg font-bold text-[#212844] mb-2">Movilidad Salarial</h3>
                     <p class="text-xs text-slate-500 mb-4 font-light">
-                        Crecimiento sostenido en posiciones de alto nivel (Ingresos entre 5 y 10 SMMLV).
+                        Transición en franjas medias y crecimiento hacia ingresos superiores (5 a 10 SMMLV).
                     </p>
                     <div class="chart-container" style="height: 180px;">
                         <canvas id="chartSalariosPosgrado"></canvas>
@@ -270,7 +319,7 @@
             <div class="md:col-span-8 glass-panel p-8 border-l-4 border-[#FFD300]">
                 <h3 class="text-xl font-bold text-[#212844] mb-2 flex items-center"><span class="mr-2 text-2xl">&#127979;</span> Diversificación y Auge Sectorial</h3>
                 <p class="text-sm text-slate-500 mb-6 font-light">
-                    Además del salto en la absorción del sector Educativo (alcanzando un 22%), nuestros egresados de posgrado consolidan su presencia y crecimiento en áreas estratégicas como Tecnología, Finanzas y Salud.
+                    Otras actividades de servicios redujeron su participación, cediendo paso al crecimiento del sector Educación (que saltó al 22%) y la estabilidad en el sector de la Construcción.
                 </p>
                 <div class="chart-container">
                     <canvas id="chartSectores"></canvas>
@@ -283,7 +332,7 @@
     <section id="fidelizacion" class="scroll-mt-24 mb-16">
         <div class="mb-10 text-center md:text-left">
             <h2 class="heading-underline text-3xl font-bold text-[#212844] mb-4">
-                5. Fidelización y Reconocimiento (Posgrado)
+                5. Fidelización y Reconocimiento - Posgrado
             </h2>
             <p class="text-slate-600 text-lg max-w-4xl font-light">
                 La propuesta de valor de UNIMINUTO se reafirma en el entorno corporativo. El mercado laboral valora progresivamente a nuestros egresados, quienes, a su vez, evidencian un sentido de pertenencia y lealtad institucional en constante crecimiento.
@@ -303,10 +352,10 @@
                     </div>
                     <div>
                         <h4 class="font-bold text-[#212844] text-lg mb-1 flex items-center">
-                            <span class="mr-2 text-xl">&#128218;</span> Sentido de Pertenencia
+                            <span class="mr-2 text-xl">&#128218;</span> Intención de Recomendación
                         </h4>
                         <p class="text-sm text-slate-600 font-light">
-                            El índice de recomendación del programa y el orgullo institucional experimentaron un salto de 7 puntos.
+                            El 94% de los egresados de la cohorte 2025 recomendaría cursar su programa de posgrado a futuros aspirantes.
                         </p>
                     </div>
                 </div>
@@ -611,6 +660,65 @@ window.onload = function() {
         }
     });
 
+    // ==========================================
+    // GRÁFICOS SECCIÓN 3: PERFIL POSGRADO (DATOS REALES)
+    // ==========================================
+
+    // DATOS REALES DOCX PÁG 10
+    new Chart(document.getElementById('chartSexoPosgrado').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: wrapLabels(['Mujeres (60%)', 'Hombres (40%)']),
+            datasets: [{
+                data: [60, 40],
+                backgroundColor: [colors.primary, colors.accent2],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'right', labels: { font: { size: 10 } } } }
+        }
+    });
+
+    // DATOS REALES DOCX PÁG 10
+    new Chart(document.getElementById('chartEstadoCivil').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: wrapLabels(['Solteros', 'Casados', 'Unión Libre', 'Otros']),
+            datasets: [{
+                label: 'Distribución (%)',
+                data: [52, 24, 21, 3], 
+                backgroundColor: [colors.accent2, colors.primary, colors.accent1, '#CBD5E1'],
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
+            scales: { y: { beginAtZero: true, max: 65 } }
+        }
+    });
+
+    // DATOS REALES DOCX PÁG 11
+    new Chart(document.getElementById('chartHijos').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: wrapLabels(['Con Hijos (51%)', 'Sin Hijos (49%)']),
+            datasets: [{
+                data: [51, 49], 
+                backgroundColor: [colors.accent1, colors.primary],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'right', labels: { font: { size: 10 } } } }
+        }
+    });
+
         // 8. Especializaciones y Maestrías
     new Chart(document.getElementById('chartMaestrias').getContext('2d'), {
         type: 'line',
@@ -619,7 +727,7 @@ window.onload = function() {
             datasets: [
                 {
                     label: 'Especializaciones (%)',
-                    data: [82, 78, 75, 77],
+                    data: [82, 84, 75, 77],
                     borderColor: colors.primary,
                     backgroundColor: 'transparent',
                     pointBackgroundColor: colors.primary,
@@ -688,8 +796,8 @@ window.onload = function() {
                     tension: 0.1
                 },
                 {
-                    label: 'Tecnología (%)',
-                    data: [10, 12, 15, 18],
+                    label: 'Construcción (%)',
+                    data: [12, 15, 12, 12],
                     borderColor: colors.accent2,
                     backgroundColor: colors.accent2,
                     borderWidth: 3,
@@ -698,22 +806,12 @@ window.onload = function() {
                     tension: 0.1
                 },
                 {
-                    label: 'Finanzas (%)',
-                    data: [12, 12, 13, 15],
+                    label: 'Otras act. de servicios (%)',
+                    data: [51, 43, 35, 28],
                     borderColor: colors.accent1,
                     backgroundColor: colors.accent1,
                     borderWidth: 3,
                     pointBackgroundColor: colors.accent1,
-                    pointRadius: 5,
-                    tension: 0.1
-                },
-                {
-                    label: 'Salud (%)',
-                    data: [8, 9, 11, 14],
-                    borderColor: colors.success,
-                    backgroundColor: colors.success,
-                    borderWidth: 3,
-                    pointBackgroundColor: colors.success,
                     pointRadius: 5,
                     tension: 0.1
                 }
@@ -726,22 +824,36 @@ window.onload = function() {
         }
     });
 
-    // 9. Salarios Posgrado
+// DATOS REALES DOCX PÁG 22
     new Chart(document.getElementById('chartSalariosPosgrado').getContext('2d'), {
         type: 'bar',
         data: {
             labels: labelsAnos,
-            datasets: [{
-                label: 'Ingresos 5 a 10 SMMLV (%)',
-                data: [6, 7, 8, 10],
-                backgroundColor: colors.accent2,
-                borderRadius: { topLeft: 4, topRight: 4 }
-            }]
+            datasets: [
+                {
+                    label: '1 a 3 SMMLV (%)',
+                    data: [45, 48, 52, 56], // Ascenso
+                    backgroundColor: '#94A3B8',
+                    borderRadius: 3
+                },
+                {
+                    label: '3 a 5 SMMLV (%)',
+                    data: [49, 44, 38, 32], // Descenso
+                    backgroundColor: colors.accent2,
+                    borderRadius: 3
+                },
+                {
+                    label: '5 a 10 SMMLV (%)',
+                    data: [6, 7, 8, 10], // Ascenso élite
+                    backgroundColor: colors.primary,
+                    borderRadius: 3
+                }
+            ]
         },
         options: {
             responsive: true, maintainAspectRatio: false,
-            plugins: { tooltip: mandatoryTooltipConfig, legend: { display: false } },
-            scales: { y: { beginAtZero: true, max: 15 } }
+            plugins: { tooltip: mandatoryTooltipConfig, legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10 } } } },
+            scales: { y: { beginAtZero: true, max: 65 } }
         }
     });
 
@@ -761,8 +873,8 @@ window.onload = function() {
                     tension: 0.1
                 },
                 {
-                    label: 'Índice de Recomendación (%)',
-                    data: [79, 81, 84, 86],
+                    label: 'Intención de Recomendación (%)',
+                    data: [91, 92, 93, 94],
                     borderColor: colors.accent2,
                     pointBackgroundColor: colors.accent2,
                     borderDash: [5, 5],
